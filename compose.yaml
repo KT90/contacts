@@ -1,0 +1,18 @@
+services:
+  db:
+    image: postgres:latest
+    restart: "no"
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_PASSWORD=contacts
+      - POSTGRES_USER=contacts
+      - POSTGRES_DB=contacts_db
+  backend:
+    build: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/contacts_db
